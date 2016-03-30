@@ -1,0 +1,6 @@
+#####################
+# Python
+#####################
+
+# Ignore compiled py files
+*.pyc

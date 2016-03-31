@@ -66,6 +66,15 @@ class detection_system:
         #     print self.runtime_store.get(key)
 
     def alarm(self,clientid,subject,specfic_msg):
+
+        YOUR_MAIL_SERVER = ""
+        YOUR_MAIL_SERVER_PORT = 587 # default
+
+        YOUR_EMAIL_ADDRESS = ""
+        YOUR_EMAIL_LOGIN = ""
+        YOUR_EMAIL_LOGIN_PASSWORD = ""
+
+
         print "Sending Mail...."
         mongomailClient = MongoClient()
         dataBase_email = mongomailClient['client_to_email']
@@ -74,7 +83,7 @@ class detection_system:
             print "Failed to find Client's Email"
             return
         msg = MIMEMultipart()
-        msg['From'] = 'YOUR EMAIL'
+        msg['From'] = YOUR_EMAIL_ADDRESS
         msg['To'] = document['Email']
         msg['Subject'] = '[ThirdEye] ' + subject
         final_message = 'Dear User (id : ' + clientid + ')\n'
@@ -83,16 +92,16 @@ class detection_system:
         final_message = final_message + "\n Thanks! \n ThirdEye Team"
         msg.attach(MIMEText(final_message))
 
-        mailserver = smtplib.SMTP('YOURMAILSERVER',587)
+        mailserver = smtplib.SMTP(YOUR_MAIL_SERVER,YOUR_MAIL_SERVER_PORT)
         # identify ourselves to smtp gmail client
         mailserver.ehlo()
         # secure our email with tls encryption
         mailserver.starttls()
         # re-identify ourselves as an encrypted connection
         mailserver.ehlo()
-        mailserver.login('YOUR EMAIL', 'YOUR PASSWORD')
+        mailserver.login(YOUR_EMAIL_LOGIN, YOUR_EMAIL_LOGIN_PASSWORD)
 
-        mailserver.sendmail('YOUR EMAIL',[document['Email']],msg.as_string())
+        mailserver.sendmail(YOUR_EMAIL_ADDRESS,[document['Email']],msg.as_string())
 
         mailserver.quit()
         print "Sent!"

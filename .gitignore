@@ -4,3 +4,7 @@
 
 # Ignore compiled py files
 *.pyc
+
+# Ignore our detection system
+detection_system_wali.py
+detection_system_wali.pyc

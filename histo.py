@@ -1,5 +1,5 @@
 __author__ = 'wali'
-from detection_system import detection_system
+from detection_system_wali import detection_system
 import numpy
 
 class Histogram:
@@ -75,8 +75,8 @@ class histo_detection(detection_system):
         self.action_window = 15
 
     def new_entry(self,entry,client_key,enable_detection,print_out):
-        if( not self.avg_histogram_store.has_key(client_key)):
-            self.avg_histogram_store[client_key]= Avg_Histogram()
+        if( not self.runtime_store.has_key(client_key)):
+            self.runtime_store[client_key]= Avg_Histogram()
 
         if(self.current_histogram.events < self.action_window):
             self.current_histogram.add_event(entry)
@@ -91,19 +91,19 @@ class histo_detection(detection_system):
 
             # No Alarm was raised
             if(result is False):
-                avg_histogram = self.avg_histogram_store.get(client_key)
+                avg_histogram = self.runtime_store.get(client_key)
                 avg_histogram.add_histogram(self.current_histogram)
-                self.avg_histogram_store[client_key] = avg_histogram
+                self.runtime_store[client_key] = avg_histogram
             # An Alarm was raised
             else:
-                self.alarm(self.current_histogram)
+                self.alarm(self.current_histogram,client_key)
 
             #Reset Current Histogram
             self.current_histogram = Histogram()
 
     def detect(self, client_key):
         print "detecting"
-        avg_histogram = self.avg_histogram_store.get(client_key)
+        avg_histogram = self.runtime_store.get(client_key)
         mean_values = dict()
         stddev_values = dict()
         all_keys = avg_histogram.list_containing_table.keys()

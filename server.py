@@ -4,6 +4,12 @@ from flask import Flask, request
 from pymongo import MongoClient
 from detection_system import detection_system
 from histo import histo_detection
+from mdp import mdp_variant
+from place_holder_system import placeholder
+
+#Global Variables
+detection_system = None
+dataBase = None
 
 
 def check_for_null_session(collection,entry):
@@ -16,12 +22,12 @@ def check_for_null_session(collection,entry):
 def add_to_Log(request):
     if request.headers['Content-Type'] == 'application/json':
         print request.json
-        c_k = request.json['ClientKey']
-        clientCollection = dataBase[c_k]
+        c_i = request.json['ClientID']
+        clientCollection = dataBase[c_i]
         for entry in request.json['Events']:
             #Sending Event to Detection System
-            try:detection_system.new_entry(entry,c_k,True,True)
-            except: print "Detection System Failure"
+            try:detection_system.new_entry(entry,c_i,True,True)
+            except Exception as Error: print "Detection System Failure: " + repr(Error)
 
             #Checking for Empty Session
             if(check_for_null_session(clientCollection,entry)):
@@ -31,10 +37,6 @@ def add_to_Log(request):
 
 
 app = Flask(__name__)
-
-#Global Variables
-detection_system = histo_detection()
-dataBase = None
 
 @app.route('/')
 def api_root():
@@ -47,7 +49,28 @@ def api_root():
 def api_submit():
     return add_to_Log(request)
 
-#### COMMAND LINE ARUGMENTS ####
+@app.route('/email',methods = ['POST'])
+def api_email():
+    if request.headers['Content-Type'] == 'application/json':
+        print request.json
+        mongoClient2 = MongoClient()
+        dataBase2 = mongoClient2['client_to_email']
+        dataBase2['emails'].insert_one(request.json)
+        try:detection_system.alarm(request.json['ClientID'],'Extension installation success',"The ThirdEye extension was successfully installed on Chrome.")
+        except Exception as error: print "Detection System Failure: " + repr(error)
+        return "success"
+    return "failed"
+
+@app.route('/uninstall',methods= ['GET'])
+def api_uninstall():
+    id = request.args.get('id')
+    if not id:
+        return "You did not set a communication channel"
+    try:detection_system.alarm(id,'Extension was uninstalled',"Third Eye was uninstalled from Chrome")
+    except Exception as error: print "Detection System Failure: " + repr(error)
+    return "Thank you"
+
+
 
 if __name__ == '__main__':
     mongoClient = MongoClient()
@@ -55,10 +78,16 @@ if __name__ == '__main__':
     #Select Mongo DB to use
     dataBase = mongoClient['mydb']
 
+    #Select Detection System
+    #detection_system = mdp_variant()
+
+    #Place Holder
+    detection_system = placeholder()
+
     #If Detection System Does Not Store Data, Call this to feed it past data
-    try:detection_system.load_from_database(dataBase)
-    except: print "Detection System Failure"
+    #try:detection_system.load_from_database(dataBase)
+    #except Exception as Error: print "Detection System Failure: " + repr(Error)
 
     #Start Flask Server
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0',debug=True,use_reloader=False)
 

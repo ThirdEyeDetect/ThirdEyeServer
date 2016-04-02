@@ -33,7 +33,9 @@ The server is cross platform and requires Python 2.7 and MongoDB installed on yo
 
 ####Steps
 - Download the repository and unzip to a desired location
-- Navigate and open ```detection_system.py```. 
+- Navigate and open ```detection_system.py``` and move to line 70 - 75.
+- Add your SMTP details including mailserver, port, email address, mail server login and mail server password
+- Run the server with the following command ```python server.py```
 
 [extension]: <https://github.com/ThirdEyeDetect/ThirdEyeExtension>
 [Flask]: <http://flask.pocoo.org/>

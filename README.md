@@ -1,7 +1,7 @@
 # ThirdEyeServer
 
 ###Overview
-ThirdEye is a continuous authentication system for Facebook on the Google Chrome web browser. The system comprisies of a Chrome [extension] and this server. NOTE! The server repository is to display its codebase and cannot be used in production because the ThirdEye extension are hardcoded to communicate with our server. 
+ThirdEye is a continuous authentication system for Facebook on the Google Chrome web browser. The system comprises of a Chrome [extension] and this server. NOTE! The server repository is to display its codebase and cannot be used in production because the ThirdEye extension are hardcoded to communicate with our server. 
 
 ###Description 
 The server is responsible for three primary tasks:
@@ -24,10 +24,10 @@ The server uses python's SMTP module to send email notification to users. Connec
 
 ####Design
 The server exposes an standard API to allow seamless integration of multiple anomaly detection algorithms. ```detection_system.py``` defines an abstract base class (ABC) which algorithm implementations are expected to override.  The two primary calls are :
-- new_entry: This function is called by the server for each indivdual event/action received.
+- new_entry: This function is called by the server for each individual event/action received.
 - alarm: This function is called by a detection algorithm when it wants to send a notification to the user.
 
-###Installation Instuctions
+###Installation Instructions
 ####Requirements
 The server is cross platform and requires Python 2.7 and MongoDB installed on your system. 
 

@@ -1,12 +1,12 @@
 # ThirdEyeServer
 
 ###Overview
-ThirdEye is a continuous authentication system for Facebook on the Google Chrome web browser. The system comprises of a Chrome [extension] and this server. NOTE! The server repository is to display its codebase and cannot be used in production because the ThirdEye extension are hardcoded to communicate with our server. 
+ThirdEye is a continuous authentication system for Facebook on the Google Chrome web browser. The system comprises of a Chrome [extension] and this server. ```NOTE!``` The server repository is to display its codebase and cannot be used in production because the ThirdEye extension are hardcoded to communicate with our server instance. 
 
 ###Description 
 The server is responsible for three primary tasks:
-- Central storage point for all user collected data
-- Notification generating service
+- Central storage point for all user collected data.
+- Notification generating service.
 - A platform for anomaly detection algorithms.
 
 ###Technical
@@ -17,13 +17,13 @@ The server is written in python's microwebframework [Flask]. By default, it runs
 - /uninstall : This endpoint is called at extension uninstallation to generate user notification for uninstallation
 
 ####Storage
-The server uses MongoDB as storage database. The user database is organized as a unique collection for each client extension. 
+The server uses MongoDB as storage database. The user database is organized as a unique collection for each client extension. Each Facebook action is stored as an indivdual document.
 
 ####Notification
 The server uses python's SMTP module to send email notification to users. Connection to mailserver is secured using SSL.
 
 ####Design
-The server exposes an standard API to allow seamless integration of multiple anomaly detection algorithms. ```detection_system.py``` defines an abstract base class (ABC) which algorithm implementations are expected to override.  The two primary calls are :
+The server exposes a standard API to allow seamless integration of multiple anomaly detection algorithms. ```detection_system.py``` defines an abstract base class (ABC) which algorithm implementations are expected to override.  The two primary calls are :
 - new_entry: This function is called by the server for each individual event/action received.
 - alarm: This function is called by a detection algorithm when it wants to send a notification to the user.
 

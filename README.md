@@ -29,7 +29,10 @@ The server exposes a standard API to allow seamless integration of multiple anom
 
 ###Installation Instructions
 ####Requirements
-The server is cross platform and requires Python 2.7 and MongoDB installed on your system. 
+The server is cross platform and requires Python 2.7 and MongoDB installed on your system. You will also need to include the PyMongo module so that Python can communicate to the MongoDB. This can be installed using the following command:
+```sh
+$ python -m pip install pymongo
+```
 
 ####Steps
 - Download the repository and unzip to a desired location

@@ -2,7 +2,7 @@ __author__ = 'wali'
 
 from flask import Flask, request
 from pymongo import MongoClient
-from detection_system import detection_system
+from detection_system_wali import detection_system
 from histo import histo_detection
 from mdp import mdp_variant
 from place_holder_system import placeholder

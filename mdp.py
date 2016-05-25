@@ -1,5 +1,5 @@
 __author__ = 'wali'
-from detection_system_wali import detection_system
+from detection_system import detection_system
 
 # class TransitionMatrix:
 #

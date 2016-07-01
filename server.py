@@ -89,5 +89,6 @@ if __name__ == '__main__':
     #except Exception as Error: print "Detection System Failure: " + repr(Error)
 
     #Start Flask Server
-    app.run(host='0.0.0.0',debug=True,use_reloader=False)
+    context = ('thirdeye_cert.pem','thirdeye_priv.pem')
+    app.run(host='0.0.0.0',debug=True,use_reloader=False, ssl_context=context)
 

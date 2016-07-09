@@ -76,7 +76,7 @@ if __name__ == '__main__':
     mongoClient = MongoClient()
 
     #Select Mongo DB to use
-    dataBase = mongoClient['mydb']
+    dataBase = mongoClient['user_encrypted_data']
 
     #Select Detection System
     #detection_system = mdp_variant()
@@ -89,6 +89,6 @@ if __name__ == '__main__':
     #except Exception as Error: print "Detection System Failure: " + repr(Error)
 
     #Start Flask Server
-    context = ('thirdeye_cert.pem','thirdeye_priv.pem')
+    context = ('thirdeye_server_cert.pem','thirdeye_server_priv.pem')
     app.run(host='0.0.0.0',debug=True,use_reloader=False, ssl_context=context)
 

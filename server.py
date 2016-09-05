@@ -1,10 +1,9 @@
 __author__ = 'wali'
 
 from flask import Flask, request
+from flask import render_template
 from pymongo import MongoClient
 from detection_system import detection_system
-from histo import histo_detection
-from mdp import mdp_variant
 from place_holder_system import placeholder
 
 #Global Variables
@@ -40,7 +39,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def api_root():
-    return 'Welcome'
+    return render_template('welcomepage.html')
 
 # Method takes JSON array of log objects
     # Single item will be an array of length 1
@@ -76,7 +75,7 @@ if __name__ == '__main__':
     mongoClient = MongoClient()
 
     #Select Mongo DB to use
-    dataBase = mongoClient['mydb']
+    dataBase = mongoClient['user_encrypted_data']
 
     #Select Detection System
     #detection_system = mdp_variant()
@@ -89,5 +88,6 @@ if __name__ == '__main__':
     #except Exception as Error: print "Detection System Failure: " + repr(Error)
 
     #Start Flask Server
-    app.run(host='0.0.0.0',debug=True,use_reloader=False)
-
+    context = ('thirdeye_server_cert.crt','thirdeye_server_priv.key')
+    app.run(host='0.0.0.0',debug=True,use_reloader=False, ssl_context=context)
+    #app.run(host='0.0.0.0',debug=True,use_reloader=False)

@@ -1,4 +1,3 @@
-/thirdeye_server_cert.crt
 #####################
 # Python
 #####################
@@ -8,5 +7,8 @@
 
 # Ignore our detection system
 detection_system_wali.py
-/thirdeye_server_priv.key
+
 detection_system_wali.pyc
+
+#Private Key
+/thirdeye_server_priv.key
